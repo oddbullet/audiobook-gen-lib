@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* Project-level base resets / tweaks.
+   Tailwind v4 ships sensible defaults via Preflight, so we only add
+   application-specific overrides here. */
+body {
+  margin: 0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
