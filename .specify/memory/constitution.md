@@ -1,50 +1,83 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: unversioned scaffold → 1.0.0 (initial constitution)
+Modified principles: five unnamed scaffold slots → principles I–V below.
+Added sections: Core Principles, Technology & Quality Standards,
+Development Workflow, Governance (populated from scaffold).
+Removed sections: None.
+Follow-up TODOs: RATIFICATION_DATE — confirm the original adoption date.
+This report is temporary review material; remove it before committing.
+-->
+
+# Audiobook Gen Lib Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Library-First
+Backend generation logic MUST live in independently testable modules within
+`backend`, separate from HTTP handlers and UI concerns. Modules MUST have a clear,
+single purpose. Generation functionality MUST be usable programmatically so that
+API and UI changes do not require duplicating generation logic.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. API Contract Discipline
+Backend functionality needed by the frontend MUST be exposed through explicit,
+versioned FastAPI HTTP endpoints. Request/response schemas MUST be typed and
+validated. The frontend MUST NOT depend on backend internals. Breaking public API
+contract changes MUST increment the API major version and document a migration
+path so existing consumers can transition independently of backend internals.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Test-First (NON-NEGOTIABLE)
+TDD is mandatory for backend library code: tests are written and approved first, then
+observed to fail, then implementation proceeds (Red-Green-Refactor). No library
+change lands without tests that exercise it. Frontend changes MUST include
+component or integration coverage for non-trivial logic.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Integration Testing
+Integration tests are REQUIRED for: new library contract surfaces, contract changes,
+API endpoints, and any interaction with the TTS engine (`supertonic`) or file
+generation pipeline. Tests MUST cover both success and failure paths at the
+API boundary.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Simplicity & Observability
+Changes MUST NOT introduce abstractions without a documented current use case.
+Every generation run MUST produce structured logs for pipeline stages and
+actionable error messages through logs or API error responses; errors MUST NOT be
+silently swallowed. Logs MUST NOT expose secrets or source manuscript content.
+Added complexity MUST be justified in review to keep generation failures diagnosable.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Technology & Quality Standards
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Backend: Python ≥3.13, FastAPI, managed with `uv` (dependencies pinned in
+  `pyproject.toml` / `uv.lock`).
+- Frontend: React 19 + TypeScript (strict), Vite, Tailwind CSS 4.
+- Type safety: TypeScript strict mode MUST stay enabled; Python code MUST pass type
+  checks where configured.
+- Lint gates: `npm run lint` (frontend, eslint) and equivalent backend lint checks
+  MUST pass before merge.
+- Secrets and generated artifacts (audio files, `dist/`, virtualenvs) MUST NOT be
+  committed to version control.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- All changes go through feature branches with review before merge to the main
+  branch.
+- Every PR MUST include: description, tests for changed behavior, and confirmation
+  that lint/typecheck pass.
+- Backend changes require both unit and (where applicable) integration tests;
+  frontend changes require build (`tsc -b && vite build`) to succeed.
+- Generation features (novel/audiobook pipelines) MUST include a reproducible
+  end-to-end example or test.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- This constitution supersedes all other practices, conventions, and ad-hoc
+  decisions. Conflicts resolve in favor of the constitution.
+- Amendments: any team member MAY propose an amendment via PR. Amendments MUST
+  document the change, rationale, and migration plan; they require review approval.
+- Versioning: MAJOR for incompatible governance/principle removals or redefinitions;
+  MINOR for new principles or materially expanded guidance; PATCH for
+  clarifications and non-semantic refinements.
+- Compliance review: all PRs and reviews MUST verify constitution compliance;
+  unresolvable complexity MUST be escalated rather than silently introduced.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): confirm original adoption date | **Last Amended**: 2026-09-16
