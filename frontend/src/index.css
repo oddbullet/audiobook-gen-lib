@@ -1,5 +1,42 @@
 @import "tailwindcss";
 
+/* Tailwind CSS v4 directive; ignored by generic CSS linters. */
+/* stylelint-disable-next-line at-rule-no-unknown */
+@theme {
+  /* Dark chrome */
+  --color-chrome-bg: #1f1c18;
+  --color-sidebar-bg: #2a2621;
+  --color-surface-raised: #332e28;
+  --color-border-dark: #45403a;
+
+  /* Light content area */
+  --color-content-bg: #f3efe8;
+  --color-content-divider: #e0d9cd;
+
+  /* Text on dark */
+  --color-text-on-dark: #ede7dd;
+  --color-text-on-dark-muted: #b3ab9f;
+  --color-text-on-dark-subtle: #7a7268;
+
+  /* Text on light */
+  --color-text-on-light: #2a251f;
+  --color-text-on-light-muted: #9a9287;
+
+  /* Accent */
+  --color-accent: #c98a4f;
+  --color-accent-hover: #b87a40;
+  --color-accent-text: #fff8ee;
+  --color-selected-row-bg: #4a3b2e;
+
+  /* Status */
+  --color-success: #6fa05f;
+  --color-success-bg: #dde4d5;
+  --color-success-text: #5f7d54;
+
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-sans: "DM Sans", "Inter", sans-serif;
+}
+
 /* Project-level base resets / tweaks.
    Tailwind v4 ships sensible defaults via Preflight, so we only add
    application-specific overrides here. */
@@ -9,4 +46,6 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-sans);
+  background-color: var(--color-chrome-bg);
 }
