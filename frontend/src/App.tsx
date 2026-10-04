@@ -32,7 +32,7 @@ function App() {
           </NavLink>
         ))}
       </nav>
-      <main className="flex-1 bg-content-bg">
+      <main className="flex flex-1 flex-col bg-content-bg">
         <Routes>
           <Route path="/" element={<Generate_Page />} />
           <Route path="/library" element={<Library_Page />} />

@@ -36,3 +36,5 @@ parchment-cream content area. There is exactly ONE accent color (copper) for
 primary actions and active states. Every neutral is warm, tinted toward
 brown/yellow. Never use pure gray, pure black, or pure white.
 TYPOGRAPHY
+
+Ensure responsive design.

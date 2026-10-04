@@ -41,8 +41,8 @@ export default function Generate_Page() {
   });
 
   return (
-    <div>
-      <div className="">
+    <div className="flex flex-1 flex-col md:flex-row">
+      <aside className="flex gap-1 overflow-x-auto border-b border-border-dark bg-sidebar-bg p-3 md:w-56 md:shrink-0 md:flex-col md:overflow-x-visible md:overflow-y-auto md:border-b-0 md:border-r">
         {Object.keys(page_content).map((key) => (
           <PageButton
             key={key}
@@ -50,11 +50,14 @@ export default function Generate_Page() {
             onSendData={() => handlePageButtonClick(key)}
           />
         ))}
-        <button onClick={handleAddChapter} className="">
+        <button
+          onClick={handleAddChapter}
+          className="shrink-0 rounded-md border border-dashed border-border-dark px-3 py-2 text-left text-sm text-text-on-dark-subtle transition-colors hover:border-accent hover:text-accent md:mt-2"
+        >
           + Add Chapter
         </button>
-      </div>
-      <div className="mx-auto flex max-w-3xl flex-col gap-4 p-8">
+      </aside>
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 p-4 md:p-8">
         <textarea
           ref={textareaRef}
           placeholder="Paste or type the text you want turned into audio..."
