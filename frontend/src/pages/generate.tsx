@@ -52,9 +52,21 @@ export default function Generate_Page() {
         ))}
         <button
           onClick={handleAddChapter}
-          className="shrink-0 rounded-md border border-dashed border-border-dark px-3 py-2 text-left text-sm text-text-on-dark-subtle transition-colors hover:border-accent hover:text-accent md:mt-2"
+          className="inline-flex shrink-0 items-center gap-2 rounded-md border border-dashed border-border-dark px-3 py-2 text-left text-sm text-text-on-dark-subtle transition-colors hover:border-accent hover:text-accent md:mt-2"
         >
-          + Add Chapter
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            className="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          Add Chapter
         </button>
       </aside>
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 p-4 md:p-8">
