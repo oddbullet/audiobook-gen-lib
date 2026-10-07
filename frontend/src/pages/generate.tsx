@@ -40,9 +40,29 @@ export default function Generate_Page() {
     "Chapter 3": "Page 3",
   });
 
+  const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("My Audiobook");
+
   return (
     <div className="flex flex-1 flex-col md:flex-row">
       <aside className="flex gap-1 overflow-x-auto border-b border-border-dark bg-sidebar-bg p-3 md:w-56 md:shrink-0 md:flex-col md:overflow-x-visible md:overflow-y-auto md:border-b-0 md:border-r">
+        {isEditingTitle ? (
+          <input
+            autoFocus
+            type="text"
+            value={title}
+            onBlur={() => setIsEditingTitle(false)}
+            onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setIsEditingTitle(false);
+              }
+            }}
+          />
+        ) : (
+          <h2 onClick={() => setIsEditingTitle(true)}>{title}</h2>
+        )}
+
         {Object.keys(page_content).map((key) => (
           <PageButton
             key={key}
