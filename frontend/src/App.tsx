@@ -1,27 +1,46 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
+import { Routes, Route, NavLink } from "react-router";
+
+import Generate_Page from "./pages/generate";
+import Setting_Page from "./pages/setting";
+import Library_Page from "./pages/library";
+
+const tabs = [
+  { to: "/", label: "Generate" },
+  { to: "/library", label: "Library" },
+  { to: "/settings", label: "Settings" },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-6 bg-slate-50 px-6 text-slate-800">
-      <img src={heroImg} alt="" width={170} height={179} className="block" />
-      <h1 className="text-4xl font-semibold tracking-tight text-slate-900">
-        Tailwind is set up
-      </h1>
-      <p className="text-slate-600">
-        Edit <code className="rounded bg-slate-200 px-1.5 py-0.5 font-mono text-sm">src/App.tsx</code> and save to test HMR.
-      </p>
-      <button
-        type="button"
-        onClick={() => setCount((c) => c + 1)}
-        className="rounded-md border border-violet-500 bg-violet-50 px-4 py-2 font-medium text-violet-700 transition hover:bg-violet-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
-      >
-        Count is {count}
-      </button>
-    </main>
-  )
+    <div className="flex min-h-screen flex-col bg-chrome-bg">
+      <nav className="flex items-stretch gap-1 bg-chrome-bg px-4 pt-3">
+        {tabs.map((tab) => (
+          <NavLink
+            key={tab.to}
+            to={tab.to}
+            end={tab.to === "/"}
+            className={({ isActive }) =>
+              [
+                "rounded-t-lg border border-b-0 px-5 py-2.5 text-sm font-medium transition-colors",
+                isActive
+                  ? "border-border-dark bg-content-bg text-text-on-light"
+                  : "border-transparent text-text-on-dark-muted hover:text-text-on-dark",
+              ].join(" ")
+            }
+          >
+            {tab.label}
+          </NavLink>
+        ))}
+      </nav>
+      <main className="flex flex-1 flex-col bg-content-bg">
+        <Routes>
+          <Route path="/" element={<Generate_Page />} />
+          <Route path="/library" element={<Library_Page />} />
+          <Route path="/settings" element={<Setting_Page />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
