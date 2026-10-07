@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import PageButton from "../component/PageButton";
+import SideBar from "../components/SideBar";
 
 export default function Generate_Page() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -42,33 +42,11 @@ export default function Generate_Page() {
 
   return (
     <div className="flex flex-1 flex-col md:flex-row">
-      <aside className="flex gap-1 overflow-x-auto border-b border-border-dark bg-sidebar-bg p-3 md:w-56 md:shrink-0 md:flex-col md:overflow-x-visible md:overflow-y-auto md:border-b-0 md:border-r">
-        {Object.keys(page_content).map((key) => (
-          <PageButton
-            key={key}
-            title={key}
-            onSendData={() => handlePageButtonClick(key)}
-          />
-        ))}
-        <button
-          onClick={handleAddChapter}
-          className="inline-flex shrink-0 items-center gap-2 rounded-md border border-dashed border-border-dark px-3 py-2 text-left text-sm text-text-on-dark-subtle transition-colors hover:border-accent hover:text-accent md:mt-2"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            className="h-4 w-4"
-            aria-hidden="true"
-          >
-            <path d="M12 5v14M5 12h14" />
-          </svg>
-          Add Chapter
-        </button>
-      </aside>
+      <SideBar
+        chapters={Object.keys(page_content)}
+        onAddChapter={handleAddChapter}
+        onSelectChapter={handlePageButtonClick}
+      />
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 p-4 md:p-8">
         <textarea
           ref={textareaRef}
