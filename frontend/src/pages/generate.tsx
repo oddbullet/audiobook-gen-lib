@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 
 import PageButton from "../component/PageButton";
 
+const MAX_TITLE_DISPLAY_LENGTH = 40;
+
 export default function Generate_Page() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -42,6 +44,10 @@ export default function Generate_Page() {
 
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("My Audiobook");
+  const displayTitle =
+    title.length > MAX_TITLE_DISPLAY_LENGTH
+      ? `${title.slice(0, MAX_TITLE_DISPLAY_LENGTH).trimEnd()}…`
+      : title;
 
   return (
     <div className="flex flex-1 flex-col md:flex-row">
@@ -51,6 +57,7 @@ export default function Generate_Page() {
             autoFocus
             type="text"
             value={title}
+            className="w-full min-w-40 shrink-0 rounded-md border border-border-dark bg-surface-raised px-2 py-1.5 text-base font-semibold text-text-on-dark outline-none transition-shadow focus:ring-2 focus:ring-accent md:mb-2 md:min-w-0"
             onBlur={() => setIsEditingTitle(false)}
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => {
@@ -60,7 +67,13 @@ export default function Generate_Page() {
             }}
           />
         ) : (
-          <h2 onClick={() => setIsEditingTitle(true)}>{title}</h2>
+          <h2
+            onClick={() => setIsEditingTitle(true)}
+            title={title}
+            className="w-48 shrink-0 cursor-pointer wrap-break-word rounded-md border border-transparent px-2 py-1.5 text-base font-semibold text-text-on-dark transition-colors hover:border-border-dark hover:bg-surface-raised md:mb-2 md:w-auto"
+          >
+            {displayTitle}
+          </h2>
         )}
 
         {Object.keys(page_content).map((key) => (
