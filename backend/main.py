@@ -1,4 +1,6 @@
 from models import TextBody
+import os
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,8 +19,12 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = Path(PROJECT_ROOT / "audiofile").resolve()
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
 @app.post("/api/v1/synthesize")
 def synthesize(body: TextBody):
     wav, _ = tts.synthesize(body.text, style)
-    tts.save_audio(wav, "output.wav")
+    tts.save_audio(wav, f"{OUTPUT_DIR} / output.wav")
 
