@@ -1,5 +1,4 @@
-from models import TextBody
-import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -7,10 +6,18 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from supertonic import TTS
 
+from db import engine, init_db
+from models import TextBody
+
 tts = TTS(auto_download=True)
 style = tts.get_voice_style(voice_name="M1")
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db(engine)
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,4 +34,3 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 def synthesize(body: TextBody):
     wav, _ = tts.synthesize(body.text, style)
     tts.save_audio(wav, f"{OUTPUT_DIR} / output.wav")
-

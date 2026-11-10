@@ -29,3 +29,6 @@ dist-ssr
 *.wav
 
 __pycache__
+
+# Database
+*.db

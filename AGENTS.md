@@ -19,7 +19,6 @@ This project is in development.
 - Mock Service Worker (No Browser Worker)
 
 ## Testing Stack Backend
-
 - PyTest
 - FastAPI TestClient
 
