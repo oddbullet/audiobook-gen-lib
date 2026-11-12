@@ -4,9 +4,11 @@ import SideBar from "../components/SideBar";
 
 export default function Generate_Page() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleClick = async () => {
     const text = textareaRef.current?.value;
+    setIsGenerating(true);
 
     try {
       await fetch("http://localhost:8000/api/v1/synthesize", {
@@ -20,6 +22,8 @@ export default function Generate_Page() {
       }
     } catch (err) {
       console.error("Could not generate audio");
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -56,18 +60,45 @@ export default function Generate_Page() {
         <button
           onClick={handleClick}
           type="button"
-          className="inline-flex w-fit items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-accent-text shadow-[0_4px_14px_-2px_rgba(201,138,79,0.5)] transition-colors hover:bg-accent-hover"
+          disabled={isGenerating}
+          className="inline-flex w-fit items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-accent-text shadow-[0_4px_14px_-2px_rgba(201,138,79,0.5)] transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="h-4 w-4"
-            aria-hidden="true"
-          >
-            <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z" />
-            <path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.93V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.07A7 7 0 0 0 19 11Z" />
-          </svg>
+          {isGenerating ? (
+            <svg
+              role="status"
+              aria-label="Generating audio"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="h-4 w-4 animate-spin"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                className="opacity-25"
+              />
+              <path
+                d="M22 12a10 10 0 0 0-10-10"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-4 w-4"
+              aria-hidden="true"
+            >
+              <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z" />
+              <path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.93V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.07A7 7 0 0 0 19 11Z" />
+            </svg>
+          )}
           Generate Audio
         </button>
       </div>
