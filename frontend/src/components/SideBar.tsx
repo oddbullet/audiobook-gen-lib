@@ -15,6 +15,7 @@ export default function SideBar({
 }) {
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("My Audiobook");
+  const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
   const displayTitle =
     title.length > MAX_TITLE_DISPLAY_LENGTH
       ? `${title.slice(0, MAX_TITLE_DISPLAY_LENGTH).trimEnd()}…`
@@ -50,7 +51,11 @@ export default function SideBar({
         <PageButton
           key={key}
           title={key}
-          onSendData={() => onSelectChapter(key)}
+          isActive={key === selectedChapter}
+          onSendData={() => {
+            setSelectedChapter(key);
+            onSelectChapter(key);
+          }}
         />
       ))}
       <button
