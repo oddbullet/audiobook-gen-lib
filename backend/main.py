@@ -33,4 +33,4 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 @app.post("/api/v1/synthesize")
 def synthesize(body: TextBody):
     wav, _ = tts.synthesize(body.text, style)
-    tts.save_audio(wav, f"{OUTPUT_DIR} / output.wav")
+    tts.save_audio(wav, str(OUTPUT_DIR / "output.wav"))
